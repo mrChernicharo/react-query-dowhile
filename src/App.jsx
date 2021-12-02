@@ -1,71 +1,68 @@
 import { useEffect, useRef, useState } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import { useFetchPlayers } from './hooks/useFetchPlayers';
 
 const API_URL = 'http://127.0.0.1:3333/';
 
 function App() {
-	const [players, setPlayers] = useState([]);
-	const [playerName, setPlayerName] = useState('');
-	const [loading, setLoading] = useState(false);
-	const [error, setError] = useState(null);
+	const fetchPlayers = useFetchPlayers();
+	console.log(fetchPlayers);
 
-	const nameInputRef = useRef(null);
+	// const [playerName, setPlayerName] = useState('');
+	// const [error, setError] = useState(null);
 
-	const handleNameInput = e => {
-		setPlayerName(e.target.value);
-		console.log(playerName);
-	};
+	// const nameInputRef = useRef(null);
 
-	const getData = async () => {
-		try {
-			setLoading(true);
-			const response = await fetch(API_URL);
-			const data = await response.json();
-			setPlayers(data);
-		} catch (err) {
-			setError(err.message);
-		} finally {
-			setLoading(false);
-		}
-	};
+	// const handleNameInput = e => {
+	// 	setPlayerName(e.target.value);
+	// 	console.log(playerName);
+	// };
 
-	const postData = async () => {
-		try {
-			const response = await fetch(API_URL, {
-				method: 'POST',
-				body: JSON.stringify({ name: playerName }),
-				headers: {
-					'Content-Type': 'application/json',
-				},
-			});
+	// const getData = async () => {
+	// 	try {
+	// 	} catch (err) {
+	// 		setError(err.message);
+	// 	}
+	// };
 
-			const resData = await response.json();
-			console.log(resData);
-			getData();
-		} catch (err) {
-			setError(err.message);
-		}
-	};
+	// const postData = async () => {
+	// 	try {
+	// 		const response = await fetch(API_URL, {
+	// 			method: 'POST',
+	// 			body: JSON.stringify({ name: playerName }),
+	// 			headers: {
+	// 				'Content-Type': 'application/json',
+	// 			},
+	// 		});
 
-	useEffect(() => getData(), []);
+	// 		const resData = await response.json();
+	// 		console.log(resData);
+	// 		getData();
+	// 	} catch (err) {
+	// 		setError(err.message);
+	// 	}
+	// };
 
-	if (loading) return <div>Loading...</div>;
-	if (error) return <div>{error}</div>;
+	return <div>Hey</div>;
 
-	return (
-		<div>
-			<ul>
-				{players.map(player => (
-					<li key={player.id}>{player.name}</li>
-				))}
-			</ul>
-			<input ref={nameInputRef} type="text" onChange={handleNameInput} />
-			<button type="button" onClick={() => postData()}>
-				Criar Jogador
-			</button>
-		</div>
-	);
+	// if (loading) return <div>Loading...</div>;
+	// if (error) return <div>{error}</div>;
+
+	// return (
+	// 	<div>
+	// 		<ul>
+	// 			{players.map(player => (
+	// 				<li key={player.id}>{player.name}</li>
+	// 			))}
+	// 		</ul>
+	// 		<hr />
+	// 		<input ref={nameInputRef} type="text" onChange={handleNameInput} />
+	// 		<button type="button" onClick={() => postData()}>
+	// 			Criar Jogador
+	// 		</button>
+	// 	</div>
+	// );
 }
 
 export default App;
