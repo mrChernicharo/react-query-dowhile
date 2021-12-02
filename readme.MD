@@ -1,6 +1,9 @@
 # React Query
 
-**api calls as hooks** **tons of out-of-the-box feats** **cache invalidation** **refetch automaticaly if server data has changed**
+-   api calls as hooks
+-   tons of out-of-the-box feats
+-   cache invalidation
+-   refetch automaticaly if server data has changed
 
 ## this is what our reactQuery hook call looksLike
 
