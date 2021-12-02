@@ -14,10 +14,12 @@ const postPlayer = async name => {
 
 export const useSetPlayer = () => {
 	const queryClient = useQueryClient();
+
 	return useMutation(postPlayer, {
 		onSuccess: () => {
 			console.log('request ok!');
 			// notifica que os dados da query 'players' mudaram e precisa ser refetched
+			// notifies 'players' query that it's data has gone stale, which automatically triggers a refetch
 			queryClient.invalidateQueries('players');
 		},
 	});

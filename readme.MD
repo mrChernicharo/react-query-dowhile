@@ -1,32 +1,8 @@
-# this is what our reactQuery hook call looksLike
+# React Query
 
-{status: 'loading', isLoading: true, isSuccess: false, isError: false, isIdle: false, …}
+**api calls as hooks** **tons of out-of-the-box feats** **cache invalidation** **refetch automaticaly if server data has changed**
 
-```
-{
-    data: undefined
-    dataUpdatedAt: 0
-    error: null
-    errorUpdatedAt: 0
-    failureCount: 0
-    isError: false
-    isFetched: false
-    isFetchedAfterMount: false
-    isFetching: true
-    isIdle: false
-    isLoading: true
-    isLoadingError: false
-    isPlaceholderData: false
-    isPreviousData: false
-    isRefetchError: false
-    isRefetching: false
-    isStale: true
-    isSuccess: false
-    refetch: ƒ ()
-    remove: ƒ ()
-    status: "loading"
-}
-```
+## this is what our reactQuery hook call looksLike
 
 {status: 'success', isLoading: false, isSuccess: true, isError: false, isIdle: false, …}
 
