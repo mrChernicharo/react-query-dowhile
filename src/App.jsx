@@ -1,45 +1,71 @@
-import { useState } from 'react'
-import logo from './logo.svg'
-import './App.css'
+import { useEffect, useRef, useState } from 'react';
+import logo from './logo.svg';
+import './App.css';
+
+const API_URL = 'http://127.0.0.1:3333/';
 
 function App() {
-  const [count, setCount] = useState(0)
+	const [players, setPlayers] = useState([]);
+	const [playerName, setPlayerName] = useState('');
+	const [loading, setLoading] = useState(false);
+	const [error, setError] = useState(null);
 
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>Hello Vite + React!</p>
-        <p>
-          <button type="button" onClick={() => setCount((count) => count + 1)}>
-            count is: {count}
-          </button>
-        </p>
-        <p>
-          Edit <code>App.jsx</code> and save to test HMR updates.
-        </p>
-        <p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-          {' | '}
-          <a
-            className="App-link"
-            href="https://vitejs.dev/guide/features.html"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Vite Docs
-          </a>
-        </p>
-      </header>
-    </div>
-  )
+	const nameInputRef = useRef(null);
+
+	const handleNameInput = e => {
+		setPlayerName(e.target.value);
+		console.log(playerName);
+	};
+
+	const getData = async () => {
+		try {
+			setLoading(true);
+			const response = await fetch(API_URL);
+			const data = await response.json();
+			setPlayers(data);
+		} catch (err) {
+			setError(err.message);
+		} finally {
+			setLoading(false);
+		}
+	};
+
+	const postData = async () => {
+		try {
+			const response = await fetch(API_URL, {
+				method: 'POST',
+				body: JSON.stringify({ name: playerName }),
+				headers: {
+					'Content-Type': 'application/json',
+				},
+			});
+
+			const resData = await response.json();
+			console.log(resData);
+			getData();
+		} catch (err) {
+			setError(err.message);
+		}
+	};
+
+	useEffect(() => getData(), []);
+
+	if (loading) return <div>Loading...</div>;
+	if (error) return <div>{error}</div>;
+
+	return (
+		<div>
+			<ul>
+				{players.map(player => (
+					<li key={player.id}>{player.name}</li>
+				))}
+			</ul>
+			<input ref={nameInputRef} type="text" onChange={handleNameInput} />
+			<button type="button" onClick={() => postData()}>
+				Criar Jogador
+			</button>
+		</div>
+	);
 }
 
-export default App
+export default App;
