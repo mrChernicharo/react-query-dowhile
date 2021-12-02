@@ -9,5 +9,5 @@ const fetchPlayers = async () => {
 };
 
 export const useFetchPlayers = () => {
-	return useQuery('players', fetchPlayers);
+	return useQuery('players', fetchPlayers, { refetchOnWindowFocus: false });
 };

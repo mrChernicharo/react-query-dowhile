@@ -2,67 +2,40 @@ import { useEffect, useRef, useState } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import { useFetchPlayers } from './hooks/useFetchPlayers';
-
-const API_URL = 'http://127.0.0.1:3333/';
+import { useSetPlayer } from './hooks/useSetPlayer';
 
 function App() {
-	const fetchPlayers = useFetchPlayers();
-	console.log(fetchPlayers);
+	const { data, isLoading, error, isError } = useFetchPlayers();
+	const setPlayerMutation = useSetPlayer();
 
-	// const [playerName, setPlayerName] = useState('');
-	// const [error, setError] = useState(null);
+	const [playerName, setPlayerName] = useState('');
 
-	// const nameInputRef = useRef(null);
+	const nameInputRef = useRef(null);
 
-	// const handleNameInput = e => {
-	// 	setPlayerName(e.target.value);
-	// 	console.log(playerName);
-	// };
+	const handleNameInput = e => {
+		setPlayerName(e.target.value);
+	};
 
-	// const getData = async () => {
-	// 	try {
-	// 	} catch (err) {
-	// 		setError(err.message);
-	// 	}
-	// };
+	if (isLoading) return <div>Loading...</div>;
+	if (isError) return <div>{error}</div>;
 
-	// const postData = async () => {
-	// 	try {
-	// 		const response = await fetch(API_URL, {
-	// 			method: 'POST',
-	// 			body: JSON.stringify({ name: playerName }),
-	// 			headers: {
-	// 				'Content-Type': 'application/json',
-	// 			},
-	// 		});
-
-	// 		const resData = await response.json();
-	// 		console.log(resData);
-	// 		getData();
-	// 	} catch (err) {
-	// 		setError(err.message);
-	// 	}
-	// };
-
-	return <div>Hey</div>;
-
-	// if (loading) return <div>Loading...</div>;
-	// if (error) return <div>{error}</div>;
-
-	// return (
-	// 	<div>
-	// 		<ul>
-	// 			{players.map(player => (
-	// 				<li key={player.id}>{player.name}</li>
-	// 			))}
-	// 		</ul>
-	// 		<hr />
-	// 		<input ref={nameInputRef} type="text" onChange={handleNameInput} />
-	// 		<button type="button" onClick={() => postData()}>
-	// 			Criar Jogador
-	// 		</button>
-	// 	</div>
-	// );
+	return (
+		<div>
+			<ul>
+				{data.map(player => (
+					<li key={player.id}>{player.name}</li>
+				))}
+			</ul>
+			<hr />
+			<input ref={nameInputRef} type="text" onChange={handleNameInput} />
+			<button
+				type="button"
+				onClick={() => setPlayerMutation.mutate(playerName)}
+			>
+				Criar Jogador
+			</button>
+		</div>
+	);
 }
 
 export default App;
